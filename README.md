@@ -1,66 +1,105 @@
-# Mixtral-8x7B QLoRA Fine-Tuning
+# 🚀 Mixtral-8x7B QLoRA Fine-Tuning
 
-This repository contains a complete code pipeline for fine-tuning Mixtral-8x7B-Instruct using QLoRA on the Databricks Dolly 15k dataset.
-All training is done in 4-bit quantization, with LoRA adapters applied to reduce compute and memory cost.
+This repository contains a complete code pipeline for fine-tuning **Mixtral-8x7B-Instruct** using **QLoRA** on the **Databricks Dolly 15k** dataset.  
+Training uses **4-bit quantization** with **LoRA adapters** to reduce compute and memory cost.
 
-# 📁 Repository Structure
-├── mixtral_qlora.ipynb        # Main fine-tuning code (QLoRA + Dolly 15k)
-├── finetune_comparison.py     # Perplexity evaluation code
+---
+
+## 📁 Repository Structure
+
+```
+├── mixtral_qlora.ipynb           # Main fine-tuning notebook (QLoRA + Dolly 15k)
+├── finetune_comparison.py        # Perplexity evaluation script
 ├── assets/
-│   └── train_loss.png         # Training loss curve
+│   └── train_loss.png            # Training loss curve
 └── README.md
+```
+
+---
 
 ## ⚙️ Installation
+
+```bash
 pip install transformers peft datasets accelerate bitsandbytes
+```
 
+Requires a GPU supporting **bfloat16** and **4-bit quantization**.
 
-For GPUs supporting bfloat16 and 4-bit quantization.
+---
 
-## Fine-Tuning (Notebook)
+## 🧠 Fine-Tuning (Notebook)
 
 Run the main training notebook:
 
-jupyter notebook finetune_qlora.ipynb
+```bash
+jupyter notebook mixtral_qlora.ipynb
+```
 
+Core steps performed in the notebook:
 
-Inside the notebook, the following steps are performed:
+```python
+# 1. Load Dolly Dataset
+dataset = load_dataset("databricks/databricks-dolly-15k", split="train")
 
-# Load Dolly dataset
-## dataset = load_dataset("databricks/databricks-dolly-15k", split="train")
+# 2. Load Mixtral-8x7B with 4-bit quantization
+bnb_config = BitsAndBytesConfig(load_in_4bit=True)
+model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    quantization_config=bnb_config,
+    device_map="auto"
+)
 
-# Load Mixtral-8x7B in 4-bit
-## bnb_config = BitsAndBytesConfig(load_in_4bit=True)
-## model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=bnb_config)
+# 3. Apply LoRA (QLoRA)
+lora_config = LoraConfig(
+    r=64,
+    lora_alpha=16,
+    target_modules=["q_proj", "v_proj"]
+)
+model = get_peft_model(model, lora_config)
 
-# Apply LoRA
-## lora_config = LoraConfig(r=64, lora_alpha=16, target_modules=['q_proj','v_proj'])
-## model = get_peft_model(model, lora_config)
+# 4. Train
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_ds,
+    eval_dataset=val_ds
+)
+trainer.train()
+```
 
-# Train
-## trainer = Trainer(model=model, args=training_args, train_dataset=train_ds)
-## trainer.train()
+---
 
-📊 Evaluate Perplexity
+## 📊 Perplexity Evaluation
 
-Use:
+Run the script:
 
+```bash
 python finetune_comparison.py
-
+```
 
 Example from the script:
 
+```python
 ppl_base = calculate_perplexity(base_model, tokenizer, val_dataset)
 ppl_adapter = calculate_perplexity(model_with_adapter, tokenizer, val_dataset)
+
 print(ppl_base, ppl_adapter)
+```
 
-📉 Training Loss Curve
+---
 
-🚀 Summary of Improvements
+## 📉 Training Loss Curve
 
-Trained only ~2% of parameters using LoRA
+![Training Loss](assets/train_loss.png)
 
-Reduced memory cost via 4-bit quantization
+---
 
-Improved perplexity compared to base Mixtral
+## 🚀 Summary of Improvements
 
-Stable convergence during training
+- Trained only ~2% of parameters using **QLoRA**
+- Reduced memory usage via **4-bit NF4 quantization**
+- Improved perplexity compared to the base Mixtral model
+- Stable, smooth training convergence
+
+---
+
