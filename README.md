@@ -1,4 +1,4 @@
-##Mixtral-8x7B QLoRA Fine-Tuning
+# Mixtral-8x7B QLoRA Fine-Tuning
 
 This repository contains a complete code pipeline for fine-tuning Mixtral-8x7B-Instruct using QLoRA on the Databricks Dolly 15k dataset.
 All training is done in 4-bit quantization, with LoRA adapters applied to reduce compute and memory cost.
