@@ -32,7 +32,7 @@ Requires a GPU supporting **bfloat16** and **4-bit quantization**.
 Run the main training notebook:
 
 ```bash
-Fine_turining_QLora.ipynb
+fine_turining_QLora.ipynb
 ```
 
 Core steps performed in the notebook:
@@ -74,7 +74,7 @@ trainer.train()
 Run the script:
 
 ```bash
-python finetune_comparison.py
+finetune_comparison.ipynb
 ```
 
 Example from the script:
