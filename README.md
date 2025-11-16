@@ -1,4 +1,4 @@
-# 🚀 Mixtral-8x7B QLoRA Fine-Tuning
+# Mixtral-8x7B QLoRA Fine-Tuning
 
 This repository contains a complete code pipeline for fine-tuning **Mixtral-8x7B-Instruct** using **QLoRA** on the **Databricks Dolly 15k** dataset.  
 Training uses **4-bit quantization** with **LoRA adapters** to reduce compute and memory cost.
@@ -17,7 +17,7 @@ Training uses **4-bit quantization** with **LoRA adapters** to reduce compute an
 
 ---
 
-## ⚙️ Installation
+##  Installation
 
 ```bash
 pip install transformers peft datasets accelerate bitsandbytes
@@ -27,7 +27,7 @@ Requires a GPU supporting **bfloat16** and **4-bit quantization**.
 
 ---
 
-## 🧠 Fine-Tuning (Notebook)
+## Fine-Tuning (Notebook)
 
 Run the main training notebook:
 
@@ -69,7 +69,7 @@ trainer.train()
 
 ---
 
-## 📊 Perplexity Evaluation
+## Perplexity Evaluation
 
 Run the script:
 
@@ -88,13 +88,13 @@ print(ppl_base, ppl_adapter)
 
 ---
 
-## 📉 Training Loss Curve
+## Training Loss Curve
 
 ![Training Loss](assets/train_loss.png)
 
 ---
 
-## 🚀 Summary of Improvements
+## Summary of Improvements
 
 - Trained only ~2% of parameters using **QLoRA**
 - Reduced memory usage via **4-bit NF4 quantization**
