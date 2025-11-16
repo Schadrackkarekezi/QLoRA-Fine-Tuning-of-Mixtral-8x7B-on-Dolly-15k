@@ -32,7 +32,7 @@ Requires a GPU supporting **bfloat16** and **4-bit quantization**.
 Run the main training notebook:
 
 ```bash
-jupyter notebook mixtral_qlora.ipynb
+Fine_turining_QLora.ipynb
 ```
 
 Core steps performed in the notebook:
