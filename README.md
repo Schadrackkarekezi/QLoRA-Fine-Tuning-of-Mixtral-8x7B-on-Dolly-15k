@@ -8,7 +8,7 @@ Training uses **4-bit quantization** with **LoRA adapters** to reduce compute an
 ## 📁 Repository Structure
 
 ```
-├── fine_turining_QLora.ipynb          # Main fine-tuning notebook (QLoRA + Dolly 15k)
+├── fine_turining_QLora.ipynb     # Main fine-tuning notebook (QLoRA + Dolly 15k)
 ├── finetune_comparison.py        # Perplexity evaluation script
 ├── assets/
 │   └── train_loss.png            # Training loss curve
